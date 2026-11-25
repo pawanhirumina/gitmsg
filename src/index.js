@@ -1,5 +1,6 @@
 import { execSync } from "node:child_process";
 import { generateCommitMessage } from "./ai.js";
+
 try {
   // check git diff
   const output = execSync("git diff --cached", { encoding: "utf-8" });

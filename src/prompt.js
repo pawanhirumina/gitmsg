@@ -1,5 +1,13 @@
-export default function checkDiff(diff) {
-  const prompt = `check the file diff and based only on this diff then make a commit message for the staged files use these prefixes for the commit messages feat, fix, chore, ui, refactor, bug use lowercase and and also don't use emojis make it short and consise and also add a description if more context needed \n${diff}`;
+export default function callPrompt(diff) {
+  const prompt = `Based only on the following diff, write a commit message for the staged files.
+
+Use one of these prefixes: feat, fix, chore, ui, refactor, bug.
+Use lowercase and do not use emojis.
+Keep it short and concise.
+Add a description on a new line if more context is needed.
+
+Diff:
+${diff}`;
 
   return prompt;
 }
