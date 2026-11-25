@@ -15,6 +15,5 @@ try {
   }
 } catch (error) {
   // if not a git repo break
-  // console.log("Not a git repo");
   process.exit(1);
 }
