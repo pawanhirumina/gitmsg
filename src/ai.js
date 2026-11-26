@@ -1,6 +1,9 @@
 import callPrompt from "./prompt.js";
+import { loadConfig } from "./config.js";
+
 export async function generateCommitMessage(diff) {
-  const apiKey = process.env.GROQ_API_KEY;
+  const config = await loadConfig();
+  const apiKey = process.env.GROQ_API_KEY || config.GROQ_API_KEY;
 
   if (!apiKey || apiKey.trim() === "") {
     console.log("API key is not configured");
@@ -10,7 +13,11 @@ export async function generateCommitMessage(diff) {
   const fullPrompt = callPrompt(diff);
   const baseUrl =
     process.env.GROQ_BASE_URL ||
+    config.GROQ_BASE_URL ||
     "https://api.groq.com/openai/v1/chat/completions";
+  const model =
+    process.env.GROQ_MODEL || config.GROQ_MODEL || "openai/gpt-oss-20b";
+
   const res = await fetch(baseUrl, {
     method: "POST",
     headers: {
@@ -18,7 +25,7 @@ export async function generateCommitMessage(diff) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      model: "openai/gpt-oss-20b",
+      model,
       messages: [{ role: "user", content: fullPrompt }],
     }),
   });
